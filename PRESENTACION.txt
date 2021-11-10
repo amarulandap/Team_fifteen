@@ -1,13 +1,13 @@
 ****************************************************************************
-**************************************************************************** 	
+****************************************************************************
 INFORMACIÓN BÁSICA DEL PROYECTO						  **
  	 	 	 	 	 				  **
-UNIVERSIDAD DE ANTIOQUIA 					          **	
+UNIVERSIDAD DE ANTIOQUIA 					          **
 	 	 	 	 					  **
 NOMBRE DEL PROYECTO	Página web sistema de gestión de proyectos        **
-PROGRAMA DE FORMACIÓN	Misión Tic 2022					  **	
+PROGRAMA DE FORMACIÓN	Misión Tic 2022					  **
 TIEMPO DE DURACIÓN 	Inicio:	01/11/2021	Fin:	19/12/2021	  **
- 	 	 			  				  **	 			  
+ 	 	 			  				  **
 EQUIPO DE DESARROLLO	Christian Morales				  **
  		 	Claudia Ospina					  **
  		 	Ricardo Restrepo				  **
@@ -19,7 +19,7 @@ EQUIPO DE DESARROLLO	Christian Morales				  **
 
 NOMBRE: Andrés Felipe Marulanda.
 PROFESIÓN: Técnico en electrónica y desarrollador web.
-COMPETENCIAS: 
+COMPETENCIAS:
 
 1.	Electrónica Básica:
 Análisis y diseño de circuitos eléctricos y electrónicos.
@@ -51,11 +51,11 @@ ReactJs, NodeJs, Stack MERN.
 
 NOMBRE: Ricardo Restrepo Angel
 PROFESIÓN: Estudiante de Ingeniería Electrónica
-COMPETENCIAS: 
+COMPETENCIAS:
 
 1.	Ingeniería Electrónica
-Conocimientos en redes, manejo de switches y enrutadores, 
-Programación de aplicaciones móviles, 
+Conocimientos en redes, manejo de switches y enrutadores,
+Programación de aplicaciones móviles,
 Programación C, C++, PHP, base de datos con SQL.
 
 1.	Programación en Python:
@@ -87,7 +87,7 @@ con la nube de Github.
 
 NOMBRE: Claudia Ospina
 PROFESIÓN: Economista
-COMPETENCIAS: 
+COMPETENCIAS:
 
 1.	Programación en Python:
 Algoritmia.
@@ -110,3 +110,27 @@ Persistencia usando bases de datos (MySQL - Workbench).
 HTML5, CSS3, JavaScript, Typescript
 ReactJs, NodeJs, Stack MERN.
 
+NOMBRE: Cristian Humberto Morales Espinosa
+PROFESIÓN: Tecnico en Sistemas
+COMPETENCIAS:
+
+1.	Programación en Python:
+Algoritmia.
+Programación orientada a objetos.
+Pilas y Colas.
+Lectura y escritura en archivos CSV.
+Paquete Numpy.
+Paquete Pandas.
+
+2.	Programación en Java:
+Algoritmia.
+Diagramas UML.
+Abstracción, herencia, polimorfismo y encapsulamiento.
+Colecciones.
+Interfaces gráficas usando swing.
+Pruebas unitarias básicas.
+Persistencia usando bases de datos (MySQL - Workbench).
+
+3.	Diseño de páginas web usando diferentes tecnologías
+HTML5, CSS3, JavaScript, Typescript
+ReactJs, NodeJs, Stack MERN.

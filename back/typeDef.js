@@ -85,7 +85,10 @@ const typeDefs = gql `
         aceptarUsuario (identificacion: Int): String
         aprobarProyecto (idProyecto: String): String
         activarProyecto (idProyecto: String): String
+<<<<<<< HEAD
         actualizarProyecto(idLider: Int, idProyecto: String, proyecto: datosActualizarProyecto): String
+=======
+>>>>>>> 1a2b200 (Se modifico aprobarProyecto y se crearon activarProyecto y cambiarFaseProyecto dentro de Mutation)
         cambiarFaseProyecto (idProyecto: String): String
     }
 `

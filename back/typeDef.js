@@ -50,6 +50,8 @@ const typeDefs = gql `
         crearUsuario (usuarioSistema:ingresarUsuario): String
         aceptarUsuario (identificacion: Int): String
         aprobarProyecto (idProyecto: String): String
+        activarProyecto (idProyecto: String): String
+        cambiarFaseProyecto (idProyecto: String): String
     }
 `
 

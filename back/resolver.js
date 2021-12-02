@@ -37,10 +37,41 @@ const resolvers = {
         },
 
         aprobarProyecto: (parent, args, context, info) => {
-            return Project.updateOne({ idProyecto:args.idProyecto }, { estadoProyecto: true })
+            return Project.updateOne({ idProyecto:args.idProyecto }, { faseProyecto: "Inicial" })
                 .then(u => "El estado del proyecto ha sido modificado")
                 .catch(err => console.log(err));
         },
+
+        activarProyecto: async (parent, args, context, info) => {
+            const proyecto = await Project.findOne({ idProyecto:args.idProyecto })
+            if(proyecto.estadoProyecto === true){
+                return Project.updateOne({ idProyecto:args.idProyecto }, { estadoProyecto: false })
+                    .then(u => "El estado del proyecto ha sido modificado")
+                    .catch(err => console.log(err));
+            }else{
+                return Project.updateOne({ idProyecto:args.idProyecto }, { estadoProyecto: true })
+                    .then(u => "El estado del proyecto ha sido modificado")
+                    .catch(err => console.log(err));
+            }
+            
+        },
+
+        cambiarFaseProyecto: async (parent, args, context, info) => {
+            const proyecto = await Project.findOne({ idProyecto:args.idProyecto })
+            if (proyecto.faseProyecto === "En desarrollo"){
+                return Project.updateOne({ idProyecto:args.idProyecto }, { faseProyecto: "Terminado" })
+                    .then(u => "El estado del proyecto ha sido modificado")
+                    .catch(err => console.log(err));
+            }else if(proyecto.faseProyecto === "Iniciado"){
+                return Project.updateOne({ idProyecto:args.idProyecto }, { faseProyecto: "En desarrollo" })
+                    .then(u => "El estado del proyecto ha sido modificado")
+                    .catch(err => console.log(err));
+            }else{
+                return 
+            }
+        },
+
+
     }
 }
 

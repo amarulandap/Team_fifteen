@@ -43,7 +43,7 @@ const proyecto = new Schema({
     },
     faseProyecto: {
         type: String,
-        default: "Inicial"
+        default: null
     },
     estudiantesInscritos: [{
         type: Schema.Types.ObjectId,

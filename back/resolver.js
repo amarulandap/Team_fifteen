@@ -2,19 +2,21 @@
 //crearUsuarios permite el registro de nuevos usuarios en el sistema.
 
 /*const usuarios = require('./service/usuario.service');*/
+const {usuarios, listarEstudiantes} = require('./service/usuario.service')
 const User = require('./models/modeloUsuario');
 const Project = require('./models/modeloProyecto');
 let aes256 = require('aes256');
 
 const key = 'CLAVESISTEMA';
 
-const usuarios = async () => await User.find({});
+//const usuarios = async () => await User.find({});
 const proyectos = async () => await Project.find({});
 
 const resolvers = {
     Query: {
         consultaUsuarios: async () => usuarios(),
         consultaProyectos: async () => proyectos(),
+        obtenerEstudiantes: async ( parent,args, context, info) => listarEstudiantes(args.rol)
     },
 
     Mutation: {

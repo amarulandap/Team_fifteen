@@ -33,6 +33,7 @@ const typeDefs = gql `
     type Query {
         consultaUsuarios: [Usuario]
         consultaProyectos: [Proyecto]
+        obtenerEstudiantes( rol: String ): [Usuario]
     }
 
     input ingresarUsuario {

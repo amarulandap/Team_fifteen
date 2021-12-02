@@ -39,7 +39,7 @@ const proyecto = new Schema({
     },
     faseProyecto: {
         type: String,
-        default: "Inicial"
+        default: null
     },
     estudiantesInscritos: [{
         type: Number,

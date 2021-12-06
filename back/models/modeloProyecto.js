@@ -46,8 +46,8 @@ const proyecto = new Schema({
         default: null
     },
     estudiantesInscritos: [{
-        type: Number,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: "usuarios"
         }],
         /*integrantes: [{
         type: Schema.Types.ObjectId,

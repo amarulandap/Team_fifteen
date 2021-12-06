@@ -29,7 +29,6 @@ const typeDefs = gql `
         facultad: String
         estadoProyecto: String
         faseProyecto: String
-        estudiantesInscritos: [Int]
     }
 
     type Inscripcion{
@@ -46,7 +45,7 @@ const typeDefs = gql `
         obtenerEstudiantes( rol: String ): [Usuario]
         buscarProyectoPorLider(nombreLider: String): [Proyecto]
         inscripcionesPendientes(estadoInscripcion: String): [Inscripcion]
-
+    }
     input ingresarUsuario {
         identificacion: Int
         nombre: String
@@ -69,7 +68,6 @@ const typeDefs = gql `
         facultad: String
         estadoProyecto: Boolean
         faseProyecto: String
-        estudiantesInscritos: [Int]
     }
 
     input datosActualizarProyecto{
@@ -87,6 +85,7 @@ const typeDefs = gql `
         activarProyecto (idProyecto: String): String
         actualizarProyecto(idLider: Int, idProyecto: String, proyecto: datosActualizarProyecto): String
         cambiarFaseProyecto (idProyecto: String): String
+        insertUserToProject(identificacion:Int,nombreDelProyecto:String):String
     }
 `
 

@@ -3,6 +3,7 @@
 
 /*const usuarios = require('./service/usuario.service');*/
 const {usuarios, listarEstudiantes} = require('./service/usuario.service')
+const {addUserProject} = require('./service/avance.service')
 const User = require('./models/modeloUsuario');
 const Project = require('./models/modeloProyecto');
 const Inscription = require('./models/modeloInscripcion')
@@ -100,6 +101,7 @@ const resolvers = {
             }
         },
 
+        insertUserToProject: async (parent, args, context, info) => addUserProject(args.identificacion, args.nombreDelProyecto),
 
     }
 }

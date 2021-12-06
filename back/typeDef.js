@@ -39,12 +39,20 @@ const typeDefs = gql `
         fechaIngreso: Date
         fechaEgreso: Date
     }
+    type Avance{
+        idProyecto: String
+        fechaAvance: Date
+        descripcion: String
+        observaciones: String
+        estudiantesInscritos: [String]
+    }
     type Query {
         consultaUsuarios: [Usuario]
         consultaProyectos: [Proyecto]
         obtenerEstudiantes( rol: String ): [Usuario]
         buscarProyectoPorLider(nombreLider: String): [Proyecto]
         inscripcionesPendientes(estadoInscripcion: String): [Inscripcion]
+        getAdvance(idProyecto: String): [Avance]
     }
     input ingresarUsuario {
         identificacion: Int
@@ -76,6 +84,11 @@ const typeDefs = gql `
         objetivosEspecificos: String
         presupuesto: Int
     }
+    input AdvanceInput{
+        idProyecto: String
+        descripcion: String
+        estudiantesInscritos: String
+    }
 
     type Mutation {
         crearUsuario (usuarioSistema:ingresarUsuario): String
@@ -86,6 +99,8 @@ const typeDefs = gql `
         actualizarProyecto(idLider: Int, idProyecto: String, proyecto: datosActualizarProyecto): String
         cambiarFaseProyecto (idProyecto: String): String
         insertUserToProject(identificacion:Int,nombreDelProyecto:String):String
+        createAdvance(advance: AdvanceInput): String
+        actualizarAvance(_id: String, descripcion: String, identificacion: Int, nombreDelProyecto: String ): String
     }
 `
 

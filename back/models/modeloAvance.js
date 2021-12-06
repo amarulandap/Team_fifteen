@@ -1,20 +1,20 @@
 const { Schema, model } = require('mongoose');
 
 const avance = new Schema({
-    idAvance: {
-        type: String,
-        required: true,
-        unique: true
-    },
     idProyecto: {
         type: String,
         required: true
-    },
+      },
     fechaAvance: {
         type: Date,
         default: new Date()
     },
     descripcion: String,
-    observaciones: String
+    observaciones: String,
+    estudiantesInscritos: [{
+        type: Schema.Types.ObjectId,
+        ref: "usuarios",
+        required: true
+      }],
 });
 module.exports = model('avances', avance, "avances");

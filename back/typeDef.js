@@ -26,11 +26,15 @@ const typeDefs = gql `
         fechaTerminacion: Date
         idDelLider: Int
         nombreLider: String
+<<<<<<< HEAD
         facultad: String
+=======
+>>>>>>> 0ddf1b7 (Se crea la carpeta para el back con la conexión, esquemas, typedefs y resolvers)
         estadoProyecto: String
         faseProyecto: String
         estudiantesInscritos: [Int]
     }
+<<<<<<< HEAD
     type Inscripcion{
         idInscripcion: String
         idProyecto: String
@@ -46,6 +50,11 @@ const typeDefs = gql `
         buscarProyectoPorLider(nombreLider: String): [Proyecto]
         inscripcionesPendientes(estadoInscripcion: String): [Inscripcion]
 
+=======
+    type Query {
+        consultaUsuarios: [Usuario]
+        consultaProyectos: [Proyecto]
+>>>>>>> 0ddf1b7 (Se crea la carpeta para el back con la conexión, esquemas, typedefs y resolvers)
     }
 
     input ingresarUsuario {
@@ -57,6 +66,7 @@ const typeDefs = gql `
         contrasegna: String
         estado: String
     }
+<<<<<<< HEAD
     input datosProyecto{
         idProyecto: String
         nombreDelProyecto: String
@@ -88,6 +98,13 @@ const typeDefs = gql `
         activarProyecto (idProyecto: String): String
         actualizarProyecto(idLider: Int, idProyecto: String, proyecto: datosActualizarProyecto): String
         cambiarFaseProyecto (idProyecto: String): String
+=======
+    
+    type Mutation {
+        crearUsuario (usuarioSistema:ingresarUsuario): String
+        aceptarUsuario (identificacion: Int): String
+        aprobarProyecto (idProyecto: String): String
+>>>>>>> 0ddf1b7 (Se crea la carpeta para el back con la conexión, esquemas, typedefs y resolvers)
     }
 `
 

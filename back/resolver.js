@@ -21,7 +21,7 @@ const resolvers = {
         consultaProyectos: async () => proyectos(),
         obtenerEstudiantes: async (parent, args, context, info) => listarEstudiantes(args.rol),
         buscarProyectoPorLider: async (parent, args, context, info) => {
-            return Project.find({ nombreLider: args.nombreLider })
+            return Project.find({ nombreLider: args.nombreLider }).populate("estudiantesInscritos")
         },
         inscripcionesPendientes: async (parent, args, context, info) => {
             return Inscription.find({ estadoInscripcion: "Pendiente" })

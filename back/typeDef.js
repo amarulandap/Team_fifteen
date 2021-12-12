@@ -36,6 +36,7 @@ const typeDefs = gql `
         idInscripcion: String
         idProyecto: String
         identificacion: Int
+        nombre: String
         estadoInscripcion: String
         fechaIngreso: Date
         fechaEgreso: Date

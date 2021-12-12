@@ -29,12 +29,14 @@ const typeDefs = gql `
         facultad: String
         estadoProyecto: String
         faseProyecto: String
+        estudiantesInscritos: [Usuario]
     }
 
     type Inscripcion{
         idInscripcion: String
         idProyecto: String
         identificacion: Int
+        nombre: String
         estadoInscripcion: String
         fechaIngreso: Date
         fechaEgreso: Date

@@ -5,6 +5,7 @@ const { ApolloServer } = require('apollo-server-express');
 
 const typeDefs = require('./typeDef');
 const resolvers = require('./resolver');
+const authRoute = require('./routes/auth.routes');
 
 const iniciarServidor = async () => {
     const api = express();
@@ -20,6 +21,7 @@ const iniciarServidor = async () => {
         response.send('Hola')
     })*/
     api.use(express.json())
+    api.use('/api', authRoute)
     api.listen ('9092', ()=> console.log('Inició el servidor'))
 }
 

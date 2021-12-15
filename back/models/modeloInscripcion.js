@@ -24,7 +24,7 @@ const inscripcion = new Schema({
     },
     fechaEgreso: {
         type: Date,
-        default: new Date()
+        default: new Date() // Ver si debe ser null
     }
 });
 module.exports = model('inscripciones', inscripcion, "inscripciones");

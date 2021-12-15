@@ -26,14 +26,26 @@ const typeDefs = gql `
         fechaTerminacion: Date
         idDelLider: Int
         nombreLider: String
+        facultad: String
         estadoProyecto: String
         faseProyecto: String
-        estudiantesInscritos: [Int]
+        estudiantesInscritos: [Usuario]
+    }
+    type Inscripcion{
+        idInscripcion: String
+        idProyecto: String
+        identificacion: Int
+        estadoInscripcion: String
+        fechaIngreso: Date
+        fechaEgreso: Date
     }
     type Query {
         consultaUsuarios: [Usuario]
         consultaProyectos: [Proyecto]
         obtenerEstudiantes( rol: String ): [Usuario]
+        buscarProyectoPorLider(nombreLider: String): [Proyecto]
+        inscripcionesPendientes(estadoInscripcion: String): [Inscripcion]
+
     }
 
     input ingresarUsuario {
@@ -45,12 +57,36 @@ const typeDefs = gql `
         contrasegna: String
         estado: String
     }
-    
+    input datosProyecto{
+        idProyecto: String
+        nombreDelProyecto: String
+        objetivosGenerales: [String]
+        objetivosEspecificos: [String]
+        presupuesto: Int
+        fechaInicio: Date
+        fechaTerminacion: Date
+        nombreLider: String
+        idDelLider: Int
+        facultad: String
+        estadoProyecto: Boolean
+        faseProyecto: String
+        estudiantesInscritos: [Int]
+    }
+
+    input datosActualizarProyecto{
+        nombreDelProyecto: String
+        objetivosGenerales: String
+        objetivosEspecificos: String
+        presupuesto: Int
+    }
+
     type Mutation {
         crearUsuario (usuarioSistema:ingresarUsuario): String
+        crearProyecto(proyecto: datosProyecto): String
         aceptarUsuario (identificacion: Int): String
         aprobarProyecto (idProyecto: String): String
         activarProyecto (idProyecto: String): String
+        actualizarProyecto(idLider: Int, idProyecto: String, proyecto: datosActualizarProyecto): String
         cambiarFaseProyecto (idProyecto: String): String
     }
 `

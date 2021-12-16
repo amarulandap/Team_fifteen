@@ -62,5 +62,9 @@ const proyecto = new Schema({
         required: true
         },
     }*/
-});
+},
+{
+    timestamps: true
+} //Auditoría
+);
 module.exports = model('proyectos', proyecto, "proyectos");

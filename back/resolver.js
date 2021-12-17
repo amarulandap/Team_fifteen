@@ -13,7 +13,7 @@ let aes256 = require('aes256');
 const key = 'CLAVESISTEMA';
 
 //const usuarios = async () => await User.find({});
-const proyectos = async () => await Project.find({});
+const proyectos = async () => await Project.find({}).populate("estudiantesInscritos");
 
 const resolvers = {
     Query: {

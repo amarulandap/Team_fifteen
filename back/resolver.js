@@ -50,6 +50,13 @@ const resolvers = {
                 .then(u => "El estado ha cambiado")
                 .catch(err => console.log(err));
         },
+        editarUsuario: async (parent, args) => {
+            
+           const usuario = await User.findOne({ identificacion: args.identificacion})
+           const editar = await User(args.usuario)
+           await User.findOneAndUpdate({ identificacion: usuario.identificacion,}, { nombre: editar.nombre, apellido: editar.apellido, correoElectronico: editar.correoElectronico}, { upsert: false })
+            return ("Usuario actualizado.")
+        },
         aprobarProyecto: (parent, args, context, info) => {
             return Project.updateOne({ idProyecto: args.idProyecto }, { faseProyecto: "Inicial" })
                 .then(u => "El estado del proyecto ha sido modificado")
@@ -79,7 +86,6 @@ const resolvers = {
                 else {
                     const modificar = await Project(args.proyecto)
                     await Project.findOneAndUpdate({ idLider: lider.idLider, idProyecto: proyecto.idProyecto }, { nombreDelProyecto: modificar.nombreDelProyecto, objetivosGenerales: modificar.objetivosGenerales, objetivosEspecificos: modificar.objetivosEspecificos, presupuesto: modificar.presupuesto }, { upsert: false })
-
                     return ("Proyecto actualizado.")
                 }
             }

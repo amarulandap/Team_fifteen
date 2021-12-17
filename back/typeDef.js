@@ -91,6 +91,11 @@ const typeDefs = gql `
         descripcion: String
         estudiantesInscritos: String
     }
+    input datosEditarUsuario{
+        nombre: String
+        apellido: String
+        correoElectronico: String
+    }
 
     type Mutation {
         crearUsuario (usuarioSistema:ingresarUsuario): String
@@ -103,6 +108,7 @@ const typeDefs = gql `
         insertUserToProject(identificacion:Int,nombreDelProyecto:String):String
         createAdvance(advance: AdvanceInput): String
         actualizarAvance(_id: String, descripcion: String, identificacion: Int, nombreDelProyecto: String ): String
+        editarUsuario(identificacion: Int, usuario: datosEditarUsuario): String
     }
 `
 

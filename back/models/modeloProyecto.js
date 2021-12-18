@@ -49,22 +49,9 @@ const proyecto = new Schema({
         type: Schema.Types.ObjectId,
         ref: "usuarios"
         }],
-        /*integrantes: [{
-        type: Schema.Types.ObjectId,
-        ref: "usuarios"
-        }]*/
-        /*nombre: {
-        type: String,
-        required: true
-        },
-        apellido: {
-        type: String,
-        required: true
-        },
-    }*/
+
 },
 {
     timestamps: true
-} //Auditoría
-);
+});
 module.exports = model('proyectos', proyecto, "proyectos");

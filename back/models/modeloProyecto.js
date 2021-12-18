@@ -49,23 +49,7 @@ const proyecto = new Schema({
         type: Schema.Types.ObjectId,
         ref: "usuarios"
         }],
-    /* estudiantesInscritos: [{
-        type: Number,
-        required: true
-        }],
-        /*integrantes: [{
-        type: Schema.Types.ObjectId,
-        ref: "usuarios"
-        }]*/
-        /*nombre: {
-        type: String,
-        required: true
-        },
-        apellido: {
-        type: String,
-        required: true
-        },
-    }*/
+
 },
 {
     timestamps: true

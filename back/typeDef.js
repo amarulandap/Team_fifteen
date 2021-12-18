@@ -96,7 +96,6 @@ const typeDefs = gql `
         apellido: String
         correoElectronico: String
     }
-
     type Mutation {
         crearUsuario (usuarioSistema:ingresarUsuario): String
         crearProyecto(proyecto: datosProyecto): String

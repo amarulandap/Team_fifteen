@@ -6,14 +6,17 @@ const { usuarios, listarEstudiantes } = require('./service/usuario.service')
 const { addUserProject, createAdvance, getAdvance } = require('./service/avance.service')
 const User = require('./models/modeloUsuario');
 const Project = require('./models/modeloProyecto');
-const Advance = require('./models/modeloAvance')
+
+const Avance = require('./models/modeloAvance')
+
 const Inscription = require('./models/modeloInscripcion')
 let aes256 = require('aes256');
 
 const key = 'CLAVESISTEMA';
 
-//const usuarios = async () => await User.find({});
+
 const proyectos = async () => await Project.find({}).populate("estudiantesInscritos");
+
 
 const resolvers = {
     Query: {
@@ -26,7 +29,9 @@ const resolvers = {
         inscripcionesPendientes: async (parent, args, context, info) => {
             return Inscription.find({ estadoInscripcion: "Pendiente" })
         },
-        getAdvance: async (parent, args, context, info) => getAdvance(args.idProyecto)
+        getAdvance: async (parent, args, context, info) => {
+            return Avance.find({idProyecto: args.idProyecto})
+        },
     },
 
     Mutation: {
@@ -117,7 +122,8 @@ const resolvers = {
             if (user && user.estado === "Autorizado") {
                 const project = await Project.findOne({ nombreDelProyecto: args.nombreDelProyecto })
                 if (project && project.estadoProyecto == true) {
-                    await Advance.updateOne({ idAdvance: args._id }, { $set: { descripcion: args.descripcion } })
+                    await Avance.updateOne({ idAdvance: args._id }, { $set: { descripcion: args.descripcion } })
+
                     return ("El avance fue actualizado correctamente")
                 }else{
                     return("El proyecto no se encuentra activo")
@@ -125,21 +131,6 @@ const resolvers = {
             }else{
                     return("El usuario no se encuentra autorizado")
                 }
-                    // if(estudiante){  
-                    //     const proyecto = await Advance.findOne({idProyect: args.idProyecto})
-                    //     if (proyecto && proyecto.estadoProyecto===false){
-                    //         return("El proyecto seleccionado no se encuentra activo.")
-                    //     }
-                    //     else{
-                    //         const modificar = await Project(args.proyecto)
-                    //             await Project.findOneAndUpdate({idLider: lider.idLider, idProyecto: proyecto.idProyecto}, { nombreDelProyecto: modificar.nombreDelProyecto, objetivosGenerales: modificar.objetivosGenerales, objetivosEspecificos: modificar.objetivosEspecificos, presupuesto: modificar.presupuesto},{upsert: false})
-
-                    //             return("Proyecto actualizado.")
-                    //     }                    
-                    // }
-                    // else{
-                    //     return("No fue posible actualizar el proyecto")
-                    // }
                 },
 
             }

@@ -32,6 +32,23 @@ const typeDefs = gql `
         estudiantesInscritos: [Usuario]
     }
 
+    type Proyectos {
+        idProyecto: String
+        nombreDelProyecto: String
+        objetivosGenerales: [String]
+        objetivosEspecificos: [String]
+        presupuesto: Int
+        fechaInicio: Date
+        fechaTerminacion: Date
+        idDelLider: Int
+        nombreLider: String
+        facultad: String
+        estadoProyecto: String
+        faseProyecto: String
+        avances: [Avance]
+       
+    }
+
     type Inscripcion{
         idInscripcion: String
         idProyecto: String
@@ -55,6 +72,10 @@ const typeDefs = gql `
         buscarProyectoPorLider(nombreLider: String): [Proyecto]
         inscripcionesPendientes(estadoInscripcion: String): [Inscripcion]
         getAdvance(idProyecto: String): [Avance]
+        filtrarProyectos: [Proyectos]
+        filtroAvances: [Avance]
+        filtroInscripciones: [Inscripcion]
+        proyectAvanc:  [Proyectos]
     }
     input ingresarUsuario {
         identificacion: Int
@@ -96,6 +117,17 @@ const typeDefs = gql `
         apellido: String
         correoElectronico: String
     }
+
+    input AdvanceObs{
+        _id: ID
+        observaciones: String
+    }
+
+    type Auth{
+        jwt: String
+        status: Int
+    }
+
     type Mutation {
         crearUsuario (usuarioSistema:ingresarUsuario): String
         crearProyecto(proyecto: datosProyecto): String
@@ -107,7 +139,17 @@ const typeDefs = gql `
         insertUserToProject(identificacion:Int,nombreDelProyecto:String):String
         createAdvance(advance: AdvanceInput): String
         actualizarAvance(_id: String, descripcion: String, identificacion: Int, nombreDelProyecto: String ): String
+        
         editarUsuario(identificacion: Int, usuario: datosEditarUsuario): String
+        
+        aprobarInscripcion(idInscripcion: String ): Inscripcion
+        rechazarInscripcion(idInscripcion: String, estadoInscripcion: String ): String
+        agregarObservacion(idProyecto:String, observaciones: String ): String
+        cambiarInscripcion(idInscripcion: String): String
+        cambiarInscripcionR(idInscripcion: String): String
+        autenticar(correoElectronico:String, contrasegna:String):Auth
+        activeUser(identificacion:Int):String
+        deleteUser(ident:Int):String
     }
 `
 

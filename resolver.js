@@ -3,14 +3,15 @@
 
 /*const usuarios = require('./service/usuario.service');*/
 const { usuarios, listarEstudiantes } = require('./service/usuario.service')
-const { addUserProject, createAdvance, getAdvance } = require('./service/avance.service')
+const { addUserProject, createAdvance, getAdvance, advance } = require('./service/avance.service')
+const {inscript} = require('./service/inscripciones.service');
 const User = require('./models/modeloUsuario');
 const Project = require('./models/modeloProyecto');
-
-const Avance = require('./models/modeloAvance')
-
-const Inscription = require('./models/modeloInscripcion')
+const Avance = require('./models/modeloAvance');
+const Inscription = require('./models/modeloInscripcion');
 let aes256 = require('aes256');
+const { isLider } = require('./middleware/authjwt');
+const jwt = require('jsonwebtoken')
 
 const key = 'CLAVESISTEMA';
 
@@ -22,19 +23,40 @@ const resolvers = {
     Query: {
         consultaUsuarios: async () => usuarios(),
         consultaProyectos: async () => proyectos(),
+        filtroInscripciones: async () => inscript(),
         obtenerEstudiantes: async (parent, args, context, info) => listarEstudiantes(args.rol),
+        proyectAvanc: async () => await Project.find({}).populate("avances"),
+        filtroAvances: async() => advance(),
         buscarProyectoPorLider: async (parent, args, context, info) => {
             return Project.find({ nombreLider: args.nombreLider }).populate("estudiantesInscritos")
         },
         inscripcionesPendientes: async (parent, args, context, info) => {
             return Inscription.find({ estadoInscripcion: "Pendiente" })
         },
-        getAdvance: async (parent, args, context, info) => {
-            return Avance.find({idProyecto: args.idProyecto})
-        },
+        getAdvance: async (parent, args, context, info) => getAdvance(args.idProyecto),
+        filtrarProyectos: async(parent, args, context, info) => proyectos(),
     },
 
     Mutation: {
+        cambiarInscripcion: async (parent, args, context, info) => {
+            const insc = await Inscription.findOne({ idInscripcion: args.idInscripcion })
+            if (insc.estadoInscripcion === "Pendiente") {
+                return Inscription.updateOne({ idInscripcion: args.idInscripcion }, { estadoInscripcion: "Aceptado" })
+                    .then(u => "la inscripcion ha sido modificado")
+                    .catch(err => console.log(err));
+            }
+        },
+
+        cambiarInscripcionR: async (parent, args, context, info) => {
+            const insc = await Inscription.findOne({ idInscripcion: args.idInscripcion })
+            if (insc.estadoInscripcion === "Pendiente") {
+                return Inscription.updateOne({ idInscripcion: args.idInscripcion }, { estadoInscripcion: "Rechazado" })
+                        .then(u => "la inscripcion ha sido modificado")
+                        .catch(err => console.log(err));
+            }
+        },
+
+
         crearUsuario: (parent, args, context, info) => {
             const { contrasegna } = args.usuarioSistema;
             const nuevoUsuario = new User(args.usuarioSistema);
@@ -49,6 +71,20 @@ const resolvers = {
             return nuevoProyecto.save()
                 .then(u => "Proyecto creado")
                 .catch(err => "Falló la creación del proyecto. Verifique la información ingresada.")
+        },
+        activeUser: (parent, args, context, info) => {
+            if (isLider(context.rol)) {
+                return User.updateOne({ identificacion: args.identificacion }, { estado: "Activo" })
+                    .then(u => "Usuario activo")
+                    .catch(err => "Fallo la activacion");
+            }
+        },
+        deleteUser: (parent, args, context, info) => {
+            if (isLider(context.rol)) {
+                return User.deleteOne({ identificacion: args.ident })
+                    .then(u => "Usuario eliminado")
+                    .catch(err => "Fallo la eliminacion");
+            }
         },
         aceptarUsuario: (parent, args, context, info) => {
             return User.updateOne({ identificacion: args.identificacion }, { estado: "Autorizado" })
@@ -81,6 +117,34 @@ const resolvers = {
             }
 
         },
+        autenticar: async (parent, args, context, info) => {
+            try {
+                const usuario = await User.findOne({ correoElectronico: args.correoElectronico })
+                if (!usuario) {
+                    return {
+                        status: 401
+                    }
+                }
+                //AES256 es una libreria de criptografia para encriptar y desencriptar.
+                const claveDesencriptada = aes256.decrypt(key, usuario.contrasegna)
+                if (args.contrasegna != claveDesencriptada) {
+                    return {
+                        status: 401
+                    }
+                }
+                const token = jwt.sign({
+                    role: usuario.rol
+                }, key, { expiresIn: 60 * 60 * 2 })
+
+                return {
+                    status: 200,
+                    jwt: token
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+        },
         actualizarProyecto: async (parent, args, context, info) => {
             const lider = await Project.findOne({ idLider: args.idLider })
             if (lider) {
@@ -105,13 +169,39 @@ const resolvers = {
                 return Project.updateOne({ idProyecto: args.idProyecto }, { faseProyecto: "Terminado" })
                     .then(u => "El estado del proyecto ha sido modificado")
                     .catch(err => console.log(err));
-            } else if (proyecto.faseProyecto === "Iniciado") {
+            } else if (proyecto.faseProyecto === "Inicial") {
                 return Project.updateOne({ idProyecto: args.idProyecto }, { faseProyecto: "En desarrollo" })
                     .then(u => "El estado del proyecto ha sido modificado")
                     .catch(err => console.log(err));
             } else {
                 return
             }
+        },
+
+        aprobarInscripcion: async (parent, args) => {
+            const inscripcionesAprobada = await Inscription.findByIdAndUpdate(
+              args.id,
+              {
+                estadoInscripcion: 'Aceptado',
+                fechaIngreso: Date.now(),
+              },
+              { new: true }
+              );
+            return inscripcionesAprobada;
+        },
+
+        rechazarInscripcion: async (parent, args) => {
+            const lider = await Project.findOne({idLider: args.idLider})
+            if(lider){
+            const Inscription = await Inscription.findByIdAndUpdate(
+              args.idInscripcion,
+              {
+                estadoInscripcion: 'rechazado',
+                fechaIngreso: Date.now(),
+              },
+              { new: true })};
+            
+            return ("Inscripcion rechazada");
         },
 
         insertUserToProject: async (parent, args, context, info) => addUserProject(args.identificacion, args.nombreDelProyecto),
@@ -130,10 +220,27 @@ const resolvers = {
                 }
             }else{
                     return("El usuario no se encuentra autorizado")
-                }
-                },
-
             }
+        },
+        agregarObservacion: async (parent, args) => {
+            const lider = await Project.findOne({idLider: args.idLider})
+            if(lider){
+            const avanceObser= await Advance.findByIdAndUpdate(
+              args.idProyecto,
+              {
+                $set: {
+                  observaciones: args.observaciones,
+                },
+              },
+              { new: true }
+            );
+
+            return ("observacion creada");
+          }
         }
+
+
+    }
+}
 
 module.exports = resolvers;

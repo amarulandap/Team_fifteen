@@ -13,7 +13,7 @@ let aes256 = require('aes256');
 const key = 'CLAVESISTEMA';
 
 //const usuarios = async () => await User.find({});
-const proyectos = async () => await Project.find({});
+const proyectos = async () => await Project.find({}).populate("estudiantesInscritos");
 
 const resolvers = {
     Query: {
@@ -94,7 +94,7 @@ const resolvers = {
                 return Project.updateOne({ idProyecto: args.idProyecto }, { faseProyecto: "Terminado" })
                     .then(u => "El estado del proyecto ha sido modificado")
                     .catch(err => console.log(err));
-            } else if (proyecto.faseProyecto === "Iniciado") {
+            } else if (proyecto.faseProyecto === "Inicial") {
                 return Project.updateOne({ idProyecto: args.idProyecto }, { faseProyecto: "En desarrollo" })
                     .then(u => "El estado del proyecto ha sido modificado")
                     .catch(err => console.log(err));

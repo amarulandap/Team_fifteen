@@ -31,8 +31,11 @@ const createAdvance = (advance) => {
 
 const getAdvance = async (idProyecto) => await Advance.find({ idProyecto })
 
+const advance = async () => await Advance.find({})
+
 module.exports = { 
     addUserProject,
     createAdvance,
-    getAdvance
+    getAdvance,
+    advance
 };
